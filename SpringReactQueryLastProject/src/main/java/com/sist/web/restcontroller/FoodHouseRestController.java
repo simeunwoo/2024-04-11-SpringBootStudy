@@ -1,7 +1,11 @@
 package com.sist.web.restcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import com.sist.web.dao.*;
@@ -68,5 +72,95 @@ public class FoodHouseRestController {
 	 *		{isLoading,error,data,reflush:함수명}=useQuery()
 	 */
 	
-	// 메인 화면 데이터
+	// 맛집 목록
+	@GetMapping("/food/list/{page}")
+	public ResponseEntity<Map> food_list(@PathVariable("page") int page)
+	{
+		Map map=new HashMap();
+		try
+		{
+			int rowSize=12;
+			int start=(rowSize*page)-rowSize;
+			List<FoodHouseVO> fList=fDao.foodListData(start);
+			int count=(int)fDao.count();
+			int totalpage=(int)(Math.ceil(count/12.0));
+			
+			final int BLOCK=10;
+			int startPage=((page-1)/BLOCK*BLOCK)+1;
+			int endPage=((page-1)/BLOCK*BLOCK)+BLOCK;
+			if(endPage>totalpage)
+				endPage=totalpage;
+			
+			map.put("fList", fList);
+			map.put("curpage", page);
+			map.put("totalpage", totalpage);
+			map.put("startPage", startPage);
+			map.put("endPage", endPage);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			// 404, 500, 415, 405, 400 ...
+		}
+		
+		return new ResponseEntity<>(map,HttpStatus.OK); // 200 (정상 수행)
+	}
+	
+	// React에서 => /food/find/${page}/${address}
+	@GetMapping("/food/find/{page}/{address}")
+	public ResponseEntity<Map> food_find(@PathVariable("page") int page,
+			@PathVariable("address") String address)
+	{
+		Map map=new HashMap();
+		try
+		{
+			int rowSize=12;
+			int start=(page-1)*rowSize;
+			List<FoodHouseVO> fList=fDao.foodFindData(start, address);
+			int totalpage=fDao.foodFindTotalPage(address);
+			
+			final int BLOCK=10;
+			int startPage=((page-1)/BLOCK*BLOCK)+1;
+			int endPage=((page-1)/BLOCK*BLOCK)+BLOCK;
+			if(endPage>totalpage)
+				endPage=totalpage;
+			
+			map.put("fList", fList);
+			map.put("curpage", page);
+			map.put("totalpage", totalpage);
+			map.put("startPage", startPage);
+			map.put("endPage", endPage);
+		}catch(Exception ex)
+		{
+			// {isLoading,isError,error,data}
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			/*
+			 * 	(***) 500 : 소스 에러
+			 * 	(***) 404 : 파일이 없는 경우
+			 * 	(***) 400 : Bad Request => 데이터 전송이 틀린 경우
+			 * 	415 : 한글 변환 문제
+			 * 	403 : 접근 거부
+			 */
+		}
+		
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("food/detail/{fno}")
+	public ResponseEntity<FoodHouseEntity> food_detail(@PathVariable("fno") int fno)
+	{
+		FoodHouseEntity vo=new FoodHouseEntity();
+		try
+		{
+			vo=fDao.findByFno(fno);
+			vo.setHit(vo.getHit()+1); // 조회 수 증가
+			fDao.save(vo);
+			
+			vo=fDao.findByFno(fno);
+		}catch(Exception ex)
+		{
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
 }
