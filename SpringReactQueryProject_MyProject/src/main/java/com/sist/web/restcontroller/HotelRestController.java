@@ -24,11 +24,11 @@ public class HotelRestController {
 		Map map=new HashMap();
 		try
 		{
-			int rowSize=12;
+			int rowSize=10;
 			int start=(rowSize*page)-rowSize;
 			List<HotelVO> hList=hDao.hotelListData(start);
 			int count=(int)hDao.count();
-			int totalpage=(int)(Math.ceil(count/12.0));
+			int totalpage=(int)(Math.ceil(count/10.0));
 			
 			final int BLOCK=10;
 			int startPage=((page-1)/BLOCK*BLOCK)+1;
@@ -56,7 +56,7 @@ public class HotelRestController {
 		Map map=new HashMap();
 		try
 		{
-			int rowSize=12;
+			int rowSize=10;
 			int start=(page-1)*rowSize;
 			List<HotelVO> hList=hDao.hotelFindData(start, address);
 			int totalpage=hDao.hotelFindTotalPage(address);

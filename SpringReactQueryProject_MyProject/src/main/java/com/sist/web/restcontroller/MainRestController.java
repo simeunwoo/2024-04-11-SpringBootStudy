@@ -35,7 +35,7 @@ public class MainRestController {
 				twoData.add(hList.get(i));
 			}
 			List<LocationEntity> threeData=new ArrayList<LocationEntity>();
-			for(int i=5;i<=8;i++)
+			for(int i=0;i<=3;i++)
 			{
 				threeData.add(lList.get(i));
 			}
@@ -43,7 +43,6 @@ public class MainRestController {
 			map.put("oneData", hList.get(0));
 			map.put("twoData", twoData);
 			map.put("threeData", threeData);
-			map.put("lList", lList);
 		}catch(Exception ex)
 		{
 			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);

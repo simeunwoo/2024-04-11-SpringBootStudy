@@ -12,7 +12,7 @@ public interface HotelDAO extends JpaRepository<HotelEntity, Integer>{
 
 	@Query(value="SELECT hno,name,price,address,poster,score "
 			+ "FROM hotel ORDER BY score DESC "
-			+ "LIMIT 0,4",nativeQuery=true)
+			+ "LIMIT 0,5",nativeQuery=true)
 	public List<HotelVO> HotelTop4();
 	
 	public HotelEntity findByHno(int hno);
