@@ -28,9 +28,8 @@ public class MainRestController {
 		{
 			List<HotelVO> hList=hDao.HotelTop4();
 			List<LocationEntity> lList=lDao.locationMainData();
-			map.put("oneData", hList.get(0));
 			List<HotelVO> twoData=new ArrayList<HotelVO>();
-			for(int i=1;i<=4;i++)
+			for(int i=15;i<=18;i++)
 			{
 				twoData.add(hList.get(i));
 			}
@@ -40,7 +39,7 @@ public class MainRestController {
 				threeData.add(lList.get(i));
 			}
 			
-			map.put("oneData", hList.get(0));
+			map.put("oneData", hList.get(76));
 			map.put("twoData", twoData);
 			map.put("threeData", threeData);
 		}catch(Exception ex)

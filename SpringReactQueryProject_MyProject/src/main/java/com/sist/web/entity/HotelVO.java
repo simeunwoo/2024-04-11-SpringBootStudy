@@ -8,4 +8,6 @@ public interface HotelVO {
 	public String getAddress();
 	public String getPoster();
 	public double getScore();
+	public String getCheckin();
+	public String getCheckout();
 }

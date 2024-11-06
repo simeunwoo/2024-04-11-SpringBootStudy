@@ -1,5 +1,8 @@
 package com.sist.web.entity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,13 +18,14 @@ pwd varchar(10)
 regdate datetime 
 hit int
  */
-@Entity(name="reactBoard")
+@Entity(name="reactboard")
 @Data
 public class ReactBoardEntity {
 
 	@Id
 	private int no;
 	
+	private int hit;
 	private String name;
 	private String subject;
 	private String content;
@@ -32,9 +36,9 @@ public class ReactBoardEntity {
 	@Column(insertable=true,updatable=false)
 	private String regdate;
 	
-/*	@PrePersist
-	public String regdate()
+	@PrePersist
+	public void regdate()
 	{
-		return new
-	}*/
+		this.regdate=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
 }
