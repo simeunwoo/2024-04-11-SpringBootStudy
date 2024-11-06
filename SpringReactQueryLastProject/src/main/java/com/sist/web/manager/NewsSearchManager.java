@@ -7,22 +7,23 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 import com.sist.web.entity.*;
 @Component
 public class NewsSearchManager {
 
     public static void main(String[] args) {
-		NewsSearchManager m=new NewsSearchManager();
-		m.newsFind("맛집");
-		// http://localhost/news/list/%EB%A7%9B%EC%A7%91
-	}
+      NewsSearchManager m=new NewsSearchManager();
+      m.newsFind("맛집");
+      // http://localhost/news/list/%EB%A7%9B%EC%A7%91
+   }
     public List<NewsVO> newsFind(String fd) {
-    	List<NewsVO> list=new ArrayList<NewsVO>();
-    	
+       List<NewsVO> list=new ArrayList<NewsVO>();
+       
         String clientId = "BOcIXREXehwfnU4w9qIm"; //애플리케이션 클라이언트 아이디
         String clientSecret = "S2InZXxJiW"; //애플리케이션 클라이언트 시크릿
 
@@ -35,8 +36,8 @@ public class NewsSearchManager {
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/news.json?display=50&query=" + text;;    // JSON 결과
-        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
+        //String apiURL = "https://openapi.naver.com/v1/search/news.json?display=50&query=" + text;    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/news.xml?display=50&query="+ text; // XML 결과
 
 
         Map<String, String> requestHeaders = new HashMap<>();
@@ -47,18 +48,20 @@ public class NewsSearchManager {
         
         try
         {
-        	JSONParser jp=new JSONParser();
-        	JSONObject root=(JSONObject)jp.parse(responseBody);
-        	JSONArray arr=(JSONArray)root.get("items");
-        	for(int i=0;i<arr.size();i++)
-        	{
-        		JSONObject obj=(JSONObject)arr.get(i);
-        		NewsVO vo=new NewsVO();
-        		vo.setTitle((String)obj.get("title"));
-        		vo.setLink((String)obj.get("link"));
-        		vo.setDesc((String)obj.get("description"));
-        		list.add(vo);
-        	}
+           
+           Document doc = Jsoup.parse(responseBody);
+           Elements title = doc.select("rss channel item title");
+           Elements desc = doc.select("rss channel item description");
+           
+           for (int i = 0; i < title.size(); i++) {
+              NewsVO vo = new NewsVO();
+              vo.setTitle(title.get(i).text());
+              vo.setDesc(title.get(i).text());
+              list.add(vo);
+            System.out.println(title.get(i).text());
+            System.out.println(desc.get(i).text());
+            System.out.println("===========================");
+           }
         }catch(Exception ex) {}
         
         return list;

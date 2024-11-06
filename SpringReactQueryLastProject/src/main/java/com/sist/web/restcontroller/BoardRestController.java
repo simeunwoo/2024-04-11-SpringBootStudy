@@ -16,8 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import com.sist.web.entity.*;
 
-import jakarta.persistence.Column;
-
 import com.sist.web.dao.*;
 @RestController
 @CrossOrigin(origins="*")
