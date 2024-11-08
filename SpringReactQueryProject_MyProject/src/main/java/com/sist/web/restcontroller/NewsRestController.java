@@ -23,8 +23,8 @@ public class NewsRestController {
 	   Map map=new HashMap();
 	   try
 	   {
-		   List<NewsVO> list=mgr.newsFind(fd);
-		   map.put("list", list);
+		   List<NewsVO> find=mgr.newsFind(fd);
+		   map.put("find", find);
 	   }catch(Exception ex)
 	   {
 		   return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);

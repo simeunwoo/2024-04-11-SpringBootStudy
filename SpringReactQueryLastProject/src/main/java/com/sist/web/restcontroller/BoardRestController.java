@@ -138,6 +138,7 @@ public class BoardRestController {
    }
    // 삭제하기 ===> DeleteMapping
    // /board/delete/${no}/${pwd}
+   // @GetMapping("/board/delete/{no}/{pwd}")
    @DeleteMapping("/board/delete/{no}/{pwd}")
    //-------------------------------------- Mutation
    public ResponseEntity<Map> board_delete(@PathVariable("no") int no,

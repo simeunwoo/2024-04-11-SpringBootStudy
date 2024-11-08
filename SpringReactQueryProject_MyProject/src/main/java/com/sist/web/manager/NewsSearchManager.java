@@ -18,7 +18,7 @@ public class NewsSearchManager {
 
     public static void main(String[] args) {
       NewsSearchManager m=new NewsSearchManager();
-      m.newsFind("맛집");
+      m.newsFind("서울");
       // http://localhost/news/list/%EB%A7%9B%EC%A7%91
    }
     public List<NewsVO> newsFind(String fd) {
