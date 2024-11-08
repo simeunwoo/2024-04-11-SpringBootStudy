@@ -61,6 +61,7 @@ public class BoardRestController {
 	   Map map=new HashMap();
 	   try
 	   {
+		   vo.setHit(0);
 		   ReactBoardEntity _vo=bDao.save(vo);
 		   map.put("vo", _vo);
 		   map.put("msg", "yes");
@@ -155,7 +156,6 @@ public class BoardRestController {
 		   {
 			   map.put("msg", "no");
 		   }
-		   
 	   }catch(Exception ex)
 	   {
 		   return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
