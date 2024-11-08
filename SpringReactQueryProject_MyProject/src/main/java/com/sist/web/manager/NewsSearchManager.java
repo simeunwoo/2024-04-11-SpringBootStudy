@@ -18,10 +18,10 @@ public class NewsSearchManager {
 
     public static void main(String[] args) {
       NewsSearchManager m=new NewsSearchManager();
-      m.newsList("맛집");
+      m.newsFind("맛집");
       // http://localhost/news/list/%EB%A7%9B%EC%A7%91
    }
-    public List<NewsVO> newsList(String fd) {
+    public List<NewsVO> newsFind(String fd) {
        List<NewsVO> list=new ArrayList<NewsVO>();
        
         String clientId = "BOcIXREXehwfnU4w9qIm"; //애플리케이션 클라이언트 아이디

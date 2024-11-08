@@ -17,13 +17,13 @@ public class NewsRestController {
    @Autowired
    private NewsSearchManager mgr;
    
-   @GetMapping("/news/list/{fd}")
-   public ResponseEntity<Map> news_list(@PathVariable("fd") String fd)
+   @GetMapping("/news/find/{fd}")
+   public ResponseEntity<Map> news_find(@PathVariable("fd") String fd)
    {
 	   Map map=new HashMap();
 	   try
 	   {
-		   List<NewsVO> list=mgr.newsList(fd);
+		   List<NewsVO> list=mgr.newsFind(fd);
 		   map.put("list", list);
 	   }catch(Exception ex)
 	   {

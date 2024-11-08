@@ -96,6 +96,13 @@ public class FoodHouseRestController {
 			map.put("totalpage", totalpage);
 			map.put("startPage", startPage);
 			map.put("endPage", endPage);
+			// {} => []
+			/*
+			 * 	return
+			 * 		=> Map => {} : 여러개를 동시에 모아서 전송
+			 * 		=> List => [{},{},{}...]
+			 * 		=> VO => {}
+			 */
 		}catch(Exception ex)
 		{
 			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
